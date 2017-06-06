@@ -1,0 +1,10 @@
+database/*
+backup/
+cred/*
+knet/
+node_modules/
+snd/
+usr/*
+web.old/
+a.out
+

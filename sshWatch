@@ -1,0 +1,6 @@
+until [  $COUNTER -lt 10 ];
+do
+w
+sleep 1
+clear
+done
