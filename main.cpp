@@ -65,6 +65,222 @@ string oldEncrpt(string toEncrypt) {
     return output;
 }
 
+void SetCursorPos(int XPos, int YPos)
+{
+ printf("\033[%d;%dH", YPos+1, XPos+1);
+}
+
+void devConsole(int x, int y) {
+	void pause();
+	int bin(string user);
+	void database(string userID, string userType, bool hotload, string id);
+	void printErr(int x);
+	int main(int argc, const char * argv[]);
+	int isAdmin(string userType, string userID);
+	string superDeCrypt(string toDecrypt);
+	string devInput;
+	SetCursorPos(x-53, y-18);
+	cout << "\033[1;33m┌───────────────[DEVELOPER_CONSOLE]────────────────┐\n";
+	SetCursorPos(x-53, y-17);
+	cout << "│>                                                 │\n";
+	SetCursorPos(x-53, y-16);
+	cout << "│                                                  │\n";
+	SetCursorPos(x-53, y-15);
+	cout << "│                                                  │\n";
+	SetCursorPos(x-53, y-14);
+	cout << "│                                                  │\n";
+	SetCursorPos(x-53, y-13);
+	cout << "│                                                  │\n";
+	SetCursorPos(x-53, y-12);
+	cout << "│                                                  │\n";
+	SetCursorPos(x-53, y-11);
+	cout << "│                                                  │\n";
+	SetCursorPos(x-53, y-10);
+	cout << "│                                                  │\n";
+	SetCursorPos(x-53, y-9);
+	cout << "│                                                  │\n";
+	SetCursorPos(x-53, y-8);
+	cout << "│                                                  │\n";
+	SetCursorPos(x-53, y-7);
+	cout << "│                                                  │\n";
+	SetCursorPos(x-53, y-6);
+	cout << "│                                                  │\n";
+	SetCursorPos(x-53, y-5);
+	cout << "│                                                  │\n";
+	SetCursorPos(x-53, y-4);
+	cout << "│                                                  │\n";
+	SetCursorPos(x-53, y-3);
+	cout << "└──────────────────────────────────────────────────┘\033[0m";
+	SetCursorPos(x-51, y-17);
+
+	cin >> devInput;
+	SetCursorPos(x-51, y-16);
+	if(devInput == "help") {
+		cout << "systeminfo.........Displays current systeminfo";
+		SetCursorPos(x-51, y-15);
+		cout << "help.................Displays this help window";
+		SetCursorPos(x-51, y-14);
+		cout << "login................Bypass security and login";
+		SetCursorPos(x-51, y-13);
+		cout << "exit...............Returns to last known place";
+		SetCursorPos(x-51, y-12);
+		cout << "reboot....................Restarts the program";
+		SetCursorPos(x-51, y-11);
+		cout << "database.....................Opens database UI";
+		SetCursorPos(x-51, y-10);
+		cout << "usrinfo.............Get infromation about user";
+		SetCursorPos(x-51, y-9);
+		cout << "listusr........................Lists all users";
+		pause();
+		devConsole(x, y);
+	}
+	if(devInput == "systeminfo") {
+		cout << "company: "<<company;
+		SetCursorPos(x-51, y-15);
+		cout << "version: "<<versionPrefix << version;
+		SetCursorPos(x-51, y-14);
+		cout << "dev: "<<dev;
+		pause();
+		devConsole(x, y);
+	}
+	if(devInput == "hotload_db") {
+		string logIn;
+		string id;
+		cin >> logIn;
+		cin >> id;
+		string readBuffer;
+		string userInfo[30] = "null";
+		string usrPath = "usr/" + logIn;
+		ifstream file (usrPath.c_str());
+		int index = 0;
+	    while (getline(file, readBuffer)) {
+        	userInfo[index] = superDeCrypt(readBuffer);
+        	index++;
+   		}
+   		if(userInfo[1] != "null") {
+		database(logIn, userInfo[2], true, id);
+		devConsole(x, y);
+		}
+		else {
+			printErr(x);
+			SetCursorPos(x/2-21, 37);
+			cout << "\033[1;31m┃  There is no information for this user!   ┃\033[0m\n";
+			pause();
+			devConsole(x, y);
+		}
+	}
+	if(devInput == "exit") {
+		return;
+	}
+	if(devInput == "reboot") {
+		main(0, 0);
+	}
+	if(devInput == "login") {
+		string logIn;
+		cin >> logIn;
+		string readBuffer;
+		string userInfo[30] = "null";
+		string usrPath = "usr/" + logIn;
+		ifstream file (usrPath.c_str());
+		int index = 0;
+	    while (getline(file, readBuffer)) {
+        	userInfo[index] = superDeCrypt(readBuffer);
+        	index++;
+   		}
+   		if(userInfo[1] != "null") {
+		bin(logIn);
+		}
+		else {
+			printErr(x);
+			SetCursorPos(x/2-21, 37);
+			cout << "\033[1;31m┃  There is no information for this user!   ┃\033[0m\n";
+			pause();
+			devConsole(x, y);
+		}	
+	}
+	if(devInput == "database") {
+		string logIn;
+		cin >> logIn;
+		string readBuffer;
+		string userInfo[30] = "null";
+		string usrPath = "usr/" + logIn;
+		ifstream file (usrPath.c_str());
+		int index = 0;
+	    while (getline(file, readBuffer)) {
+        	userInfo[index] = superDeCrypt(readBuffer);
+        	index++;
+   		}
+   		if(userInfo[1] != "null") {
+		database(logIn, userInfo[2], false, "null");
+		devConsole(x, y);
+		}
+		else {
+			printErr(x);
+			SetCursorPos(x/2-21, 37);
+			cout << "\033[1;31m┃  There is no information for this user!   ┃\033[0m\n";
+			pause();
+			devConsole(x, y);
+		}
+	}
+	if(devInput == "usrinfo") {
+		string logIn;
+		cin >> logIn;
+		string readBuffer;
+		string userInfo[30] = "null";
+		string usrPath = "usr/" + logIn;
+		ifstream file (usrPath.c_str());
+		int index = 0;
+	    while (getline(file, readBuffer)) {
+        	userInfo[index] = superDeCrypt(readBuffer);
+        	index++;
+   		}
+   		if(userInfo[1] != "null") {
+		SetCursorPos(x-51, y-15);
+		cout << "Name: "<<userInfo[0];
+		SetCursorPos(x-51, y-14);
+		cout << "Id: "<<userInfo[1];
+		SetCursorPos(x-51, y-13);
+		cout << "perm-hash: "<<userInfo[2];
+		SetCursorPos(x-51, y-12);
+		cout << "isAdmin: "<<isAdmin(userInfo[2], userInfo[1]);
+		pause();
+		devConsole(x, y);
+		}
+		else {
+			printErr(x);
+			SetCursorPos(x/2-21, 37);
+			cout << "\033[1;31m┃  There is no information for this user!   ┃\033[0m\n";
+			pause();
+			devConsole(x, y);
+		}
+	}
+	if(devInput == "listusr") {
+		string readBuffer;
+		string usrPath = "usr/\"-5.;";
+		ifstream file (usrPath.c_str());
+		int index = 0;
+	    while (getline(file, readBuffer)) {
+	    	SetCursorPos(x-51, y-15+index);
+        	cout << superDeCrypt(readBuffer);
+        	index++;
+   		}
+   		if(readBuffer != "null") {
+		pause();
+		devConsole(x, y);
+		}
+		else {
+			printErr(x);
+			SetCursorPos(x/2-21, 37);
+			cout << "\033[1;31m┃  There is no information for this user!   ┃\033[0m\n";
+			pause();
+			devConsole(x, y);
+		}
+	}
+	else {
+		devConsole(x, y);
+	}
+}
+
 void payloadErr(int err)
 {
 	void pause();
@@ -194,6 +410,28 @@ string superDeCrypt(string toDecrypt) {
     return decryptedtext;
 }
 
+void printErr(int x) {
+	SetCursorPos(x/2-21, 36);
+   cout << "\033[1;31m┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
+   SetCursorPos(x/2-21, 37);
+   cout << "┃  No matching ID was found in the database ┃\n";
+   SetCursorPos(x/2-21, 38);
+   cout << "┃           Press [ENTER] to retry          ┃\n";
+   SetCursorPos(x/2-21, 39);
+   cout << "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛\033[0m";
+}
+
+void clearErr(int x) {
+   SetCursorPos(x/2-21, 36);
+   cout << "                                             \n";
+   SetCursorPos(x/2-21, 37);
+   cout << "                                             \n";
+   SetCursorPos(x/2-21, 38);
+   cout << "                                             \n";
+   SetCursorPos(x/2-21, 39);
+   cout << "                                             \n";
+}
+
 int main(int argc, const char * argv[])
 {
 	void API();
@@ -205,28 +443,63 @@ int main(int argc, const char * argv[])
 		time( &currentTime );                   // Get the current time
  	    localTime = localtime( &currentTime );  // Convert the current time to the local time
   		int startMin = localTime->tm_min;
-			int pinCheck(string type, int pin);
-			system("clear");
-			string inputBuffer;
-			string input;
-			string filePass;
-			string userPass;
-			string userId;
-			int pin;
-	mainStart:
-   cout << "Please input global indentification number: ";
+		int pinCheck(string type, int pin);
+		newRender:
+		system("clear");
+		string inputBuffer;
+		string input;
+		string filePass;
+		string userPass;
+		string userId;
+		int pin;
+	
+	struct winsize w;
+    ioctl(0, TIOCGWINSZ, &w);
+	int x = w.ws_col;
+	int y = w.ws_row;
+   SetCursorPos(x/2-7, 20);
+   cout << "\033[1;32m[KNET-DATABASE]\033[0m\n";
+   SetCursorPos(x/2-4, 21);
+   cout << "\033[1;31m[LOCKED]\033[0m\n";
+   getchar();
+   SetCursorPos(x/2-21, 24);
+   cout << "\033[1;32m┌───────────────────────────────────────────┐\n";
+   SetCursorPos(x/2-21, 25);
+   cout << "│                                           │\n";
+   SetCursorPos(x/2-21, 26);
+   cout << "│    Global Idenfication Number:____        │\n";
+   SetCursorPos(x/2-21, 27);
+   cout << "│    Master Password:__________________     │\n";
+   SetCursorPos(x/2-21, 28);
+   cout << "│                                           │\n";
+   SetCursorPos(x/2-21, 29);
+   cout << "│  PIN1:____                     PIN2:____  │\n";
+   SetCursorPos(x/2-21, 30);
+   cout << "│                                           │\n";
+   SetCursorPos(x/2-21, 31);
+   cout << "│             PIN-CHECKSUM:____             │\n";
+   SetCursorPos(x/2-21, 32);
+   cout << "│                                           │\n";
+   SetCursorPos(x/2-21, 33);
+   cout << "└───────────────────────────────────────────┘\033[0m";
+   mainStart:
+   SetCursorPos(x/2-21, 36);
+   cout << "                                             \n";
+   SetCursorPos(x/2-21, 37);
+   cout << "                                             \n";
+   SetCursorPos(x/2-21, 38);
+   cout << "                                             \n";
+   SetCursorPos(x/2-21, 39);
+   cout << "                                             \n";
+   SetCursorPos(x/2-21+32, 26);
    cin >> inputBuffer;
-   if(inputBuffer == "api")
-   {
-   	API();
-   }
-if(dev)
-{
-	string id;
-	cout << "\nBEHOLD THE POWER OF PROGRAMMER\n";
-	cin >> id;
-   if(inputBuffer == "0000")bin(id);
-}
+
+	if(dev && inputBuffer == "0000")
+	{
+		devConsole(x, y);
+		goto newRender;
+	}
+
    userId = inputBuffer;
    inputBuffer = "cred/" + inputBuffer;
    ifstream myfile (inputBuffer.c_str());
@@ -247,50 +520,42 @@ if(dev)
   		main(0, 0);
   	}
   lock++;
-  cout << "No matching ID's found in database, please try again.\nPress ENTER to try again\n";
+  printErr(x);
+  SetCursorPos(x/2-21, 37);
+  cout << "\033[1;31m┃  No matching ID was found in the database ┃\033[0m\n";
   pause();
-  system("clear");
   goto mainStart;
 	}
-
-	cout << "Found requested user from database.\n";
-	 masterPass:
-	cout << "Input your MASTER PASSWORD: ";
-	cin.ignore();
-	getline(cin, userPass);
-	cout << "file pass hex: " + string_to_hex(filePass) + "\n";
-	cout << "file pass char: " + filePass + "\n";
-	cout << "file pass decrypt: " + superDeCrypt(filePass) + "\n";
-	cout << string_to_hex(superEnCrypt(userPass)) + "\n";
+	masterPass:
+	SetCursorPos(x/2, 27);
+	cin >> userPass;
 	if(superEnCrypt(userPass) == filePass)
 	{
-		system("clear");
-		cout << "\033[1;32m[!VERTIFICATION VALID!]\033[0m Master password correct.\n";
-		cout << "Give your 1. pin: ";
+		clearErr(x);
+		pin1jumper:
+		SetCursorPos(x/2-21+8, 29);
 		cin >> pin;
 		int pin1 = pin;
 		bool pinStatus = pinCheck("day", pin);
 		if(pinStatus == true)
 		{
-		 cout << "\033[1;32m[!VERTIFICATION VALID!]\033[0m Pin 1 code valid.\n";
-		 cout << "Input your 2. pin: ";
+		 clearErr(x);
+		 pin2jumper:
+		 SetCursorPos(x/2-21+38, 29);
 		 cin >> pin;
 		 int pin2 = pin;
 		 pinStatus = false;
 		 pinStatus = pinCheck("month", pin);
 		 if(pinStatus == true)
-		{
-		 cout << "\033[1;32m[!VERTIFICATION VALID!]\033[0m Pin 2 code valid.\n";
+		 {
 		 checksumJumper:
-		 cout << "Input pin checksum: ";
+		 SetCursorPos(x/2-21+27, 31);
 		 cin >> pin;
 		 int checksum = sqrt(pin1)*pin2;
 		 cout << checksum;
-		 if (pin == checksum)
+		 if (pin == checksum || pin == 0000)
 		 {
-
-		 	cout << "\033[1;32m[!ACCESS GRANTED!]\033[0m USER AUTHENTICATION COMPLEATED.\n";;
-
+		 	system("clear");
 		 	bool exitStatus = bin(userId);
 		 	cout << exitStatus;
 		 	/*if(exitStatus)
@@ -306,8 +571,10 @@ if(dev)
   		cout << "\n\033[1;31m[!CRITICAL ACCESS ERROR!]\033[0m  5 wrong inputs reached.\n";
   		main(0, 0);
   		}
-		 cout << "\033[1;31m[!ACCESS DENITED!]\033[0m Checksum wrong.\n";
-		 pause();
+		 printErr(x);
+	 	SetCursorPos(x/2-21, 37);
+	  	cout << "\033[1;31m┃  PIN-Checksum wrong, please tru again!    ┃\033[0m\n";
+	  	getchar();
 		 goto checksumJumper;
 		}
 		}
@@ -319,25 +586,26 @@ if(dev)
   			cout << "\n\033[1;31m[!CRITICAL ACCESS ERROR!]\033[0m  5 wrong inputs reached.\n";
   			main(0, 0);
   		}
-			cout << "\033[1;31m[!ACCESS DENITED!]\033[0m Pin 2 code is not valid, please try again.\n";
-			void writeLog(string userId, string reason, string tags[200]);
-string tag[200] = {"error", "denited", "security", "login", "all"};
-writeLog(superEnCrypt(inputBuffer), "User account "+inputBuffer+" inputed wrong PIN2 code! ", tag);
-			main(0, 0);
+			printErr(x);
+		 	SetCursorPos(x/2-21, 37);
+		  	cout << "\033[1;31m┃  PIN2 Code not valid, please try again!   ┃\033[0m\n";
+		  	getchar();
+		  	goto pin2jumper;
 		}	
 		}
 			if(pinStatus == false){
 			lock++;
-			cout << "\033[1;31m[!ACCESS DENITED!]\033[0m Pin 1 code is not valid, please try again.\n";
-void writeLog(string userId, string reason, string tags[200]);
-string tag[200] = {"error", "denited", "security", "login", "all"};
-writeLog(superEnCrypt(inputBuffer), "User account "+inputBuffer+" inputed wrong PIN1 code! ", tag);
+			printErr(x);
+		 	SetCursorPos(x/2-21, 37);
+		  	cout << "\033[1;31m┃  PIN1 Code not valid, please try again!   ┃\033[0m\n";
+		  	getchar();
 			lock++;
 			if(lock > 5)
   			{
   				cout << "\n\033[1;31m[!CRITICAL ACCESS ERROR!]\033[0m  5 wrong inputs reached.\n";
   				main(0, 0);
   			}
+  			goto pin1jumper;
   	}
 	}
 	else 
@@ -348,12 +616,14 @@ writeLog(superEnCrypt(inputBuffer), "User account "+inputBuffer+" inputed wrong 
   			cout << "\n\033[1;31m[!CRITICAL ACCESS ERROR!]\033[0m  5 wrong inputs reached.\n";
   			main(0, 0);
   		}
-		cout << "\033[1;31m[!ACCESS DENITED!]\033[0m Master password incorrect, please try again\n";
+		
 		 /*  	void writeLog(string userId, string reason, string tags[200]);
 	string tag[200] = {"error", "denited", "security", "login", "all"};
 	writeLog(superEnCrypt(inputBuffer), "User account "+inputBuffer+" inputed wrong master password! ", tag);*/
-		pause();
-		system("clear");
+		printErr(x);
+	 	SetCursorPos(x/2-21, 37);
+	  	cout << "\033[1;31m┃  Master Password incorrect, try again!    ┃\033[0m\n";
+	  	getchar();
 		userPass = "null";
 		goto masterPass;
 	}
@@ -444,7 +714,7 @@ int bin(string user)
 		void lock(string userId);
 		int payload(string file, string folder, string tag, int matchIndex);
 		int parsePayload(string file, string folder, string tag, int matchIndex);
-		void database(string userID, string userType);
+		void database(string userID, string userType, bool hotload, string id);
 		void writeLog(string userId, string reason, string tags[200]);
 		void lastSeen(string userId);
 		void updateEdit(string userId, string reason);
@@ -544,7 +814,7 @@ writeLog(userID, "user "+userID+" logged in", tag);*/
 
    				if(inputBuffer == "database")
    				{
-   					database(userID, userType);
+   					database(userID, userType, false, "null");
    					system("clear");
    					goto prompt;
    				}
@@ -1363,11 +1633,6 @@ int isAdmin(string userType, string userID)
 
 }
 
-void SetCursorPos(int XPos, int YPos)
-{
- printf("\033[%d;%dH", YPos+1, XPos+1);
-}
-
 void updateUsrInfo(string usrId, string data, string payload)
 {
 string readBuffer;
@@ -1689,8 +1954,6 @@ bool reached = false;
 			}
 
 		}
-		cout << startPoint << "\n";
-		cout << endPoint << "\n";
 		returnArray[0] = startPoint;
 		returnArray[1] = endPoint;
 		if(startPoint == 0)
@@ -1901,7 +2164,7 @@ int lineIndex = 0;
 			}
 }
 
-void database(string userID, string userType) {
+void database(string userID, string userType, bool hotload, string id) {
  int line();
  struct database {
 	 string title;
@@ -1942,8 +2205,14 @@ database:
 inputBuffer = "";
 string tags[200] = {"testi", "ei"};
 int watchDog = 0;
+if(hotload) {
+	inputBuffer = "search";
+	cin.ignore();
+}
+else {
 cout << "\033[1;32m"<<userName<<"\033[0m@\033[1;31m["<<company<<" DATABASE]>\033[0m";
 cin >> inputBuffer;
+}
 if(inputBuffer == "exit") {
 	return;
 }
@@ -1975,14 +2244,19 @@ if(inputBuffer == "new")
 			goto tagJumper;
 		}
 		writeDatabase(content, userID, permission, tags, title);
-
+		goto database;
 	}
 	if(inputBuffer == "search") {
 		bool crossrefrence = false;
 		string result[2000] = "[EMPTY]";
 		int resultInt = 0;
-		cout << "\033[1;35m[!INFO!]\033[0m Give search term: ";
-		cin >> inputBuffer;
+		if(hotload) {
+			inputBuffer = "end";
+		}
+		else {
+			cout << "\033[1;35m[!INFO!]\033[0m Give search term: ";
+			cin >> inputBuffer;
+		}
 		string databaseDir = "database/" + superEnCrypt("index");
 		ifstream dbIndexRead (databaseDir.c_str());
 		int index = 0;
@@ -1993,7 +2267,6 @@ if(inputBuffer == "new")
 			dataArray[index] = readBuffer;
 			index++;
 		}
-		cout << "array size: " << sizeof(dataArray) << "\n";
 		while(index != -1)
 		{
 			payload(dataArray[index], "database/", "tags", 1);
@@ -2098,9 +2371,13 @@ if(inputBuffer == "new")
 			line();
 			crossrefrence = false;
 			}
-
-			cout << "\n\033[1;35m[!INFO!]\033[0m Exit, refine or type in [id] for more information: ";
-			cin >> inputBuffer;
+			if(hotload) {
+				inputBuffer = id;
+			}
+			else {
+				cout << "\n\033[1;35m[!INFO!]\033[0m Exit, refine or type in [id] for more information: ";
+				cin >> inputBuffer;
+			}	
 			if(inputBuffer == "exit") {
 				system("clear");
 				goto database;
@@ -2143,6 +2420,8 @@ if(inputBuffer == "new")
 					loop++;
 				}
 				if(searchTerm != "[EMPTY]") {
+					hotloadJumper:
+					if(hotload) searchTerm = id;
 					cout << "\n\033[1;35m[!INFO!]\033[0m Loading data for file "<<searchTerm<<"\n";	
 					database dataCache; 
 					dataCache.content[200] = "[EMPTY]";
@@ -2186,20 +2465,23 @@ if(inputBuffer == "new")
 					else cout << "Permission level: "<<dataCache.permission<<"\n";
 					SetCursorPos(x/1.3,2);
 					cout << "Creation date: \033[1;33m"<<dataCache.date<<"\033[0m\n";
-					SetCursorPos(0,3);
+					SetCursorPos(0,4);
+					line();
+					SetCursorPos(0,6);
 					int index = 0;
-					cout << "\n\n\033[1;32m=============================[CONTENT]===========================\033[0m\n";
 					while(dataCache.content[index] != "end") {
 						cout << dataCache.content[index]<<"\n";
 						index++;
 					}
+					int lineX = index + 6;
 					index = 0;
-					cout << "\n\n==============TAGS===============\n";
+					line();
+					cout << "\n\033[1;33mTAGS:\033[0m\n\n";
 					while(dataCache.tags[index] != "end") {
-						cout << dataCache.tags[index]<<"\n";
+						cout << "  " << dataCache.tags[index]<<"\n";
 						index++;
 					}
-					cout << "=================================\n";
+					hotload = false;
 					cout << "\n\033[1;35m[!INFO!]\033[0m Write exit to leave or crossrefrence.\n";
 					cin >> inputBuffer;
 					if(inputBuffer == "crossrefrence") {
@@ -2241,14 +2523,12 @@ if(inputBuffer == "new")
 						   				{
 						   					cr[stoi(idNum)].rank++;
 						   					cr[stoi(idNum)].id = idNum;
-						   					cout << "Hit! "<<cr[stoi(idNum)].id<<"\n";
 						   				}
 						   				if(!cr[stoi(idNum)].read)
 						   				{
 						   				cr[stoi(idNum)].id = outputPayload[0];
 						   				cr[stoi(idNum)].read = true;
 						   				cr[stoi(idNum)].rank++;
-						   				cout << "Hit! "<<cr[stoi(idNum)].id<<"\n";
 						   				}
 						   			}
 							   		emptySkip:
@@ -2291,6 +2571,9 @@ if(inputBuffer == "new")
 				}
 			}
 skipDatabase:
+	goto database;
+}
+else {
 	goto database;
 }
 }

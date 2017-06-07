@@ -1,10 +1,14 @@
 database/*
 backup/
 cred/*
+!cred/1111
 knet/
 node_modules/
 snd/
 usr/*
+!usr/"-5.;
+!usr/1111
+!usr/730791C5CBDCF762155D1836FB7ABAEA
 web.old/
 a.out
 
